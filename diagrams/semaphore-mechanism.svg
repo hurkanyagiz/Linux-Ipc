@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420" role="img" aria-labelledby="title">
+  <title id="title">POSIX Semaphore mechanism</title>
+  <defs>
+    <style>
+      .bg{fill:#ffffff}
+      .ok{fill:#ecfdf5;stroke:#22c55e;stroke-width:1.5}
+      .locked{fill:#fee2e2;stroke:#ef4444;stroke-width:1.5}
+      .proc{fill:#ecfeff;stroke:#06b6d4;stroke-width:1.5}
+      .buf{fill:#fef3c7;stroke:#f59e0b;stroke-width:1.8}
+      .sem{fill:#f5f3ff;stroke:#8b5cf6;stroke-width:1.5}
+      .label-bg{fill:#f1f5f9;stroke:#cbd5e1;stroke-width:1}
+      .h1{font:700 22px 'Segoe UI',system-ui,sans-serif;fill:#0f172a}
+      .h2{font:600 16px 'Segoe UI',system-ui,sans-serif;fill:#1e293b}
+      .t{font:500 13px 'Segoe UI',system-ui,sans-serif;fill:#475569}
+      .code{font:600 13px 'Cascadia Code','Fira Code',monospace;fill:#6366f1}
+      .line{stroke:#64748b;stroke-width:2;fill:none}
+      .arrow{fill:#64748b}
+    </style>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M1,1 L7,4 L1,7z" class="arrow"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="900" height="420" rx="16"/>
+
+  <!-- Binary semaphore -->
+  <text x="40" y="38" class="h1">Binary semaphore</text>
+  <text x="260" y="38" class="t">mutex-like: value is 0 or 1</text>
+
+  <rect x="60" y="60" width="160" height="64" rx="12" class="ok"/>
+  <text x="140" y="88" text-anchor="middle" class="h2">Value = 1</text>
+  <text x="140" y="108" text-anchor="middle" class="t">Unlocked</text>
+
+  <path d="M220,92 L288,92" class="line" marker-end="url(#a)"/>
+  <text x="254" y="82" text-anchor="middle" class="code">sem_wait()</text>
+
+  <rect x="290" y="60" width="160" height="64" rx="12" class="locked"/>
+  <text x="370" y="88" text-anchor="middle" class="h2">Value = 0</text>
+  <text x="370" y="108" text-anchor="middle" class="t">Locked</text>
+
+  <path d="M450,92 L518,92" class="line" marker-end="url(#a)"/>
+  <text x="484" y="82" text-anchor="middle" class="code">sem_post()</text>
+
+  <rect x="520" y="60" width="160" height="64" rx="12" class="ok"/>
+  <text x="600" y="88" text-anchor="middle" class="h2">Value = 1</text>
+  <text x="600" y="108" text-anchor="middle" class="t">Unlocked</text>
+
+  <!-- Producer-Consumer -->
+  <line x1="40" y1="152" x2="860" y2="152" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="6 4"/>
+  <text x="40" y="186" class="h1">Producer-consumer pattern</text>
+  <text x="370" y="186" class="t">counting semaphores + mutex</text>
+
+  <!-- Producers -->
+  <rect x="40" y="210" width="130" height="44" rx="10" class="proc"/>
+  <text x="105" y="238" text-anchor="middle" class="h2">Producer 1</text>
+  <rect x="40" y="264" width="130" height="44" rx="10" class="proc"/>
+  <text x="105" y="292" text-anchor="middle" class="h2">Producer 2</text>
+
+  <path d="M170,232 L248,254" class="line" marker-end="url(#a)"/>
+  <path d="M170,286 L248,268" class="line" marker-end="url(#a)"/>
+
+  <!-- Buffer -->
+  <rect x="250" y="220" width="320" height="80" rx="12" class="buf"/>
+  <text x="410" y="248" text-anchor="middle" class="h2">Bounded buffer [N]</text>
+  <rect x="272" y="262" width="38" height="26" rx="4" fill="#f59e0b" opacity="0.6" stroke="#d97706" stroke-width="0.8"/>
+  <rect x="318" y="262" width="38" height="26" rx="4" fill="#f59e0b" opacity="0.6" stroke="#d97706" stroke-width="0.8"/>
+  <rect x="364" y="262" width="38" height="26" rx="4" fill="#f59e0b" opacity="0.3" stroke="#d97706" stroke-width="0.8"/>
+  <rect x="410" y="262" width="38" height="26" rx="4" fill="#f59e0b" opacity="0.1" stroke="#d97706" stroke-width="0.8"/>
+  <rect x="456" y="262" width="38" height="26" rx="4" fill="#f59e0b" opacity="0.1" stroke="#d97706" stroke-width="0.8"/>
+  <rect x="502" y="262" width="38" height="26" rx="4" fill="#f59e0b" opacity="0.1" stroke="#d97706" stroke-width="0.8"/>
+
+  <path d="M570,254 L648,232" class="line" marker-end="url(#a)"/>
+  <path d="M570,268 L648,286" class="line" marker-end="url(#a)"/>
+
+  <!-- Consumers -->
+  <rect x="650" y="210" width="130" height="44" rx="10" class="proc"/>
+  <text x="715" y="238" text-anchor="middle" class="h2">Consumer 1</text>
+  <rect x="650" y="264" width="130" height="44" rx="10" class="proc"/>
+  <text x="715" y="292" text-anchor="middle" class="h2">Consumer 2</text>
+
+  <!-- Semaphore labels -->
+  <rect x="80" y="340" width="200" height="56" rx="10" class="sem"/>
+  <text x="180" y="364" text-anchor="middle" class="h2">sem_empty = N</text>
+  <text x="180" y="384" text-anchor="middle" class="t">free slots remaining</text>
+
+  <rect x="310" y="340" width="200" height="56" rx="10" class="sem"/>
+  <text x="410" y="364" text-anchor="middle" class="h2">sem_full = 0</text>
+  <text x="410" y="384" text-anchor="middle" class="t">items ready to consume</text>
+
+  <rect x="540" y="340" width="200" height="56" rx="10" class="sem"/>
+  <text x="640" y="364" text-anchor="middle" class="h2">sem_mutex = 1</text>
+  <text x="640" y="384" text-anchor="middle" class="t">buffer access lock</text>
+</svg>

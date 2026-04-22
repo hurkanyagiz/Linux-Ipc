@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420" role="img" aria-labelledby="title">
+  <title id="title">Pipe mechanism diagram</title>
+  <defs>
+    <style>
+      .bg{fill:#ffffff} .card{fill:#f8fafc;stroke:#e2e8f0;stroke-width:1.5}
+      .proc{fill:#ecfeff;stroke:#06b6d4;stroke-width:1.5}
+      .kern{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.5}
+      .fifo{fill:#f0fdf4;stroke:#22c55e;stroke-width:1.5}
+      .h1{font:700 22px 'Segoe UI',system-ui,sans-serif;fill:#0f172a}
+      .h2{font:600 16px 'Segoe UI',system-ui,sans-serif;fill:#1e293b}
+      .t{font:500 13px 'Segoe UI',system-ui,sans-serif;fill:#475569}
+      .code{font:600 13px 'Cascadia Code','Fira Code',monospace;fill:#6366f1}
+      .line{stroke:#64748b;stroke-width:2;fill:none}
+      .arrow{fill:#64748b}
+      .label-bg{fill:#f1f5f9;stroke:#cbd5e1;stroke-width:1}
+    </style>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M1,1 L7,4 L1,7z" class="arrow"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="900" height="420" rx="16"/>
+
+  <!-- Section 1: Unnamed Pipe -->
+  <text x="40" y="38" class="h1">Unnamed pipe</text>
+  <text x="220" y="38" class="t">parent–child only, created with pipe()</text>
+
+  <rect x="40" y="60" width="160" height="80" rx="12" class="proc"/>
+  <text x="120" y="92" text-anchor="middle" class="h2">Parent</text>
+  <text x="120" y="114" text-anchor="middle" class="code">write(fd[1])</text>
+
+  <rect x="260" y="60" width="240" height="80" rx="12" class="kern"/>
+  <text x="380" y="92" text-anchor="middle" class="h2">Kernel buffer</text>
+  <text x="380" y="114" text-anchor="middle" class="t">64 KB circular • auto flow control</text>
+
+  <rect x="560" y="60" width="160" height="80" rx="12" class="proc"/>
+  <text x="640" y="92" text-anchor="middle" class="h2">Child</text>
+  <text x="640" y="114" text-anchor="middle" class="code">read(fd[0])</text>
+
+  <path d="M200,100 L260,100" class="line" marker-end="url(#a)"/>
+  <path d="M500,100 L560,100" class="line" marker-end="url(#a)"/>
+
+  <rect x="750" y="66" width="120" height="68" rx="10" class="label-bg"/>
+  <text x="810" y="88" text-anchor="middle" class="t">fd[0] → read</text>
+  <text x="810" y="106" text-anchor="middle" class="t">fd[1] → write</text>
+  <text x="810" y="124" text-anchor="middle" class="t">close unused!</text>
+
+  <!-- Section 2: Named Pipe (FIFO) -->
+  <line x1="40" y1="170" x2="860" y2="170" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="6 4"/>
+  <text x="40" y="204" class="h1">Named pipe (FIFO)</text>
+  <text x="260" y="204" class="t">unrelated processes, created with mkfifo()</text>
+
+  <rect x="40" y="226" width="160" height="80" rx="12" class="proc"/>
+  <text x="120" y="258" text-anchor="middle" class="h2">Writer</text>
+  <text x="120" y="280" text-anchor="middle" class="code">open() + write()</text>
+
+  <rect x="260" y="226" width="240" height="80" rx="12" class="fifo"/>
+  <text x="380" y="254" text-anchor="middle" class="h2">/tmp/my_fifo</text>
+  <text x="380" y="276" text-anchor="middle" class="t">filesystem entry • mkfifo()</text>
+
+  <rect x="560" y="226" width="160" height="80" rx="12" class="proc"/>
+  <text x="640" y="258" text-anchor="middle" class="h2">Reader</text>
+  <text x="640" y="280" text-anchor="middle" class="code">open() + read()</text>
+
+  <path d="M200,266 L260,266" class="line" marker-end="url(#a)"/>
+  <path d="M500,266 L560,266" class="line" marker-end="url(#a)"/>
+
+  <!-- Key properties -->
+  <line x1="40" y1="336" x2="860" y2="336" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="6 4"/>
+
+  <rect x="40" y="356" width="186" height="44" rx="10" class="label-bg"/>
+  <text x="133" y="384" text-anchor="middle" class="h2">Unidirectional</text>
+
+  <rect x="248" y="356" width="186" height="44" rx="10" class="label-bg"/>
+  <text x="341" y="384" text-anchor="middle" class="h2">Blocking I/O</text>
+
+  <rect x="456" y="356" width="186" height="44" rx="10" class="label-bg"/>
+  <text x="549" y="384" text-anchor="middle" class="h2">Byte stream</text>
+
+  <rect x="664" y="356" width="186" height="44" rx="10" class="label-bg"/>
+  <text x="757" y="384" text-anchor="middle" class="h2">Local only</text>
+</svg>

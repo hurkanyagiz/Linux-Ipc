@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="400" viewBox="0 0 900 400" role="img" aria-labelledby="title">
+  <title id="title">Signal delivery and handling</title>
+  <defs>
+    <style>
+      .bg{fill:#ffffff}
+      .src{fill:#ecfeff;stroke:#06b6d4;stroke-width:1.5}
+      .kern{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.8}
+      .tgt{fill:#fff7ed;stroke:#f97316;stroke-width:1.5}
+      .handler{fill:#fef3c7;stroke:#f59e0b;stroke-width:1.5}
+      .sig{stroke-width:1.2}
+      .s-kill{fill:#fee2e2;stroke:#f87171}
+      .s-term{fill:#fef3c7;stroke:#f59e0b}
+      .s-int{fill:#dbeafe;stroke:#60a5fa}
+      .s-usr{fill:#ecfdf5;stroke:#34d399}
+      .s-chld{fill:#f5f3ff;stroke:#a78bfa}
+      .h1{font:700 22px 'Segoe UI',system-ui,sans-serif;fill:#0f172a}
+      .h2{font:600 16px 'Segoe UI',system-ui,sans-serif;fill:#1e293b}
+      .t{font:500 13px 'Segoe UI',system-ui,sans-serif;fill:#475569}
+      .code{font:600 13px 'Cascadia Code','Fira Code',monospace;fill:#6366f1}
+      .line{stroke:#64748b;stroke-width:2;fill:none}
+      .arrow{fill:#64748b}
+    </style>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M1,1 L7,4 L1,7z" class="arrow"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="900" height="400" rx="16"/>
+
+  <text x="40" y="38" class="h1">Signal delivery and handling</text>
+  <text x="400" y="38" class="t">asynchronous notification via kernel</text>
+
+  <!-- Sources -->
+  <rect x="40" y="70" width="150" height="44" rx="10" class="src"/>
+  <text x="115" y="98" text-anchor="middle" class="h2">Another process</text>
+  <rect x="40" y="124" width="150" height="36" rx="8" class="src"/>
+  <text x="115" y="148" text-anchor="middle" class="code">kill(pid, sig)</text>
+  <rect x="40" y="170" width="150" height="36" rx="8" class="src"/>
+  <text x="115" y="194" text-anchor="middle" class="t">Terminal: Ctrl+C</text>
+  <rect x="40" y="216" width="150" height="36" rx="8" class="src"/>
+  <text x="115" y="240" text-anchor="middle" class="t">Kernel (SIGSEGV)</text>
+
+  <path d="M190,168 L268,168" class="line" marker-end="url(#a)"/>
+
+  <!-- Kernel -->
+  <rect x="270" y="80" width="230" height="180" rx="14" class="kern"/>
+  <text x="385" y="118" text-anchor="middle" class="h2">Kernel</text>
+  <text x="385" y="144" text-anchor="middle" class="t">Adds signal to target's</text>
+  <text x="385" y="164" text-anchor="middle" class="t">pending signal set</text>
+  <text x="385" y="190" text-anchor="middle" class="t">Delivers when process</text>
+  <text x="385" y="210" text-anchor="middle" class="t">is next scheduled</text>
+
+  <path d="M500,168 L568,168" class="line" marker-end="url(#a)"/>
+
+  <!-- Target process -->
+  <rect x="570" y="60" width="290" height="210" rx="14" class="tgt"/>
+  <text x="715" y="88" text-anchor="middle" class="h2">Target process</text>
+
+  <rect x="592" y="104" width="246" height="32" rx="6" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="715" y="126" text-anchor="middle" class="t">Normal execution</text>
+
+  <path d="M715,136 L715,152" class="line" marker-end="url(#a)"/>
+
+  <rect x="592" y="154" width="246" height="44" rx="8" class="handler"/>
+  <text x="715" y="174" text-anchor="middle" class="h2">Signal handler</text>
+  <text x="715" y="192" text-anchor="middle" class="code">sigaction()</text>
+
+  <path d="M715,198 L715,214" class="line" marker-end="url(#a)"/>
+
+  <rect x="592" y="216" width="246" height="32" rx="6" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="715" y="238" text-anchor="middle" class="t">Resume execution</text>
+
+  <!-- Common signals -->
+  <line x1="40" y1="280" x2="860" y2="280" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="6 4"/>
+  <text x="40" y="312" class="h2">Common signals</text>
+
+  <rect x="40"  y="326" width="124" height="50" rx="10" class="sig s-kill"/>
+  <text x="102" y="348" text-anchor="middle" class="h2">SIGKILL (9)</text>
+  <text x="102" y="366" text-anchor="middle" class="t">uncatchable</text>
+
+  <rect x="180" y="326" width="130" height="50" rx="10" class="sig s-term"/>
+  <text x="245" y="348" text-anchor="middle" class="h2">SIGTERM (15)</text>
+  <text x="245" y="366" text-anchor="middle" class="t">graceful stop</text>
+
+  <rect x="326" y="326" width="110" height="50" rx="10" class="sig s-int"/>
+  <text x="381" y="348" text-anchor="middle" class="h2">SIGINT (2)</text>
+  <text x="381" y="366" text-anchor="middle" class="t">Ctrl+C</text>
+
+  <rect x="452" y="326" width="130" height="50" rx="10" class="sig s-usr"/>
+  <text x="517" y="348" text-anchor="middle" class="h2">SIGUSR1 (10)</text>
+  <text x="517" y="366" text-anchor="middle" class="t">user defined</text>
+
+  <rect x="598" y="326" width="130" height="50" rx="10" class="sig s-chld"/>
+  <text x="663" y="348" text-anchor="middle" class="h2">SIGCHLD (17)</text>
+  <text x="663" y="366" text-anchor="middle" class="t">child exited</text>
+
+  <rect x="744" y="326" width="116" height="50" rx="10" class="sig s-term"/>
+  <text x="802" y="348" text-anchor="middle" class="h2">SIGALRM</text>
+  <text x="802" y="366" text-anchor="middle" class="t">timer expired</text>
+</svg>

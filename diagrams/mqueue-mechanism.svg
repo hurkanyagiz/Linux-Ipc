@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="340" viewBox="0 0 900 340" role="img" aria-labelledby="title">
+  <title id="title">POSIX Message Queue mechanism</title>
+  <defs>
+    <style>
+      .bg{fill:#ffffff} .proc{fill:#ecfeff;stroke:#06b6d4;stroke-width:1.5}
+      .q{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.8}
+      .p9{fill:#fee2e2;stroke:#f87171;stroke-width:1.2}
+      .p5{fill:#fef3c7;stroke:#f59e0b;stroke-width:1.2}
+      .p1{fill:#ecfdf5;stroke:#34d399;stroke-width:1.2}
+      .label-bg{fill:#f1f5f9;stroke:#cbd5e1;stroke-width:1}
+      .h1{font:700 22px 'Segoe UI',system-ui,sans-serif;fill:#0f172a}
+      .h2{font:600 16px 'Segoe UI',system-ui,sans-serif;fill:#1e293b}
+      .t{font:500 13px 'Segoe UI',system-ui,sans-serif;fill:#475569}
+      .code{font:600 13px 'Cascadia Code','Fira Code',monospace;fill:#6366f1}
+      .prio{font:700 14px 'Segoe UI',system-ui,sans-serif}
+      .line{stroke:#64748b;stroke-width:2;fill:none}
+      .arrow{fill:#64748b}
+    </style>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M1,1 L7,4 L1,7z" class="arrow"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="900" height="340" rx="16"/>
+
+  <text x="40" y="38" class="h1">POSIX message queue</text>
+  <text x="310" y="38" class="t">discrete messages with priority ordering</text>
+
+  <!-- Sender -->
+  <rect x="40" y="70" width="150" height="80" rx="12" class="proc"/>
+  <text x="115" y="102" text-anchor="middle" class="h2">Sender</text>
+  <text x="115" y="124" text-anchor="middle" class="code">mq_send()</text>
+
+  <path d="M190,110 L248,110" class="line" marker-end="url(#a)"/>
+
+  <!-- Queue -->
+  <rect x="250" y="55" width="400" height="110" rx="14" class="q"/>
+  <text x="450" y="82" text-anchor="middle" class="h2">/dev/mqueue/my_queue</text>
+
+  <!-- Priority slots -->
+  <rect x="272" y="96" width="80" height="50" rx="8" class="p9"/>
+  <text x="312" y="118" text-anchor="middle" class="prio" fill="#dc2626">P:9</text>
+  <text x="312" y="136" text-anchor="middle" class="t">Critical</text>
+
+  <rect x="362" y="96" width="80" height="50" rx="8" class="p5"/>
+  <text x="402" y="118" text-anchor="middle" class="prio" fill="#d97706">P:5</text>
+  <text x="402" y="136" text-anchor="middle" class="t">Normal</text>
+
+  <rect x="452" y="96" width="80" height="50" rx="8" class="p5"/>
+  <text x="492" y="118" text-anchor="middle" class="prio" fill="#d97706">P:3</text>
+  <text x="492" y="136" text-anchor="middle" class="t">Low</text>
+
+  <rect x="542" y="96" width="80" height="50" rx="8" class="p1"/>
+  <text x="582" y="118" text-anchor="middle" class="prio" fill="#059669">P:1</text>
+  <text x="582" y="136" text-anchor="middle" class="t">Batch</text>
+
+  <text x="450" y="190" text-anchor="middle" class="t">← highest priority dequeued first</text>
+
+  <path d="M650,110 L708,110" class="line" marker-end="url(#a)"/>
+
+  <!-- Receiver -->
+  <rect x="710" y="70" width="150" height="80" rx="12" class="proc"/>
+  <text x="785" y="102" text-anchor="middle" class="h2">Receiver</text>
+  <text x="785" y="124" text-anchor="middle" class="code">mq_receive()</text>
+
+  <!-- Properties -->
+  <line x1="40" y1="220" x2="860" y2="220" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="6 4"/>
+
+  <rect x="40"  y="242" width="192" height="70" rx="10" class="label-bg"/>
+  <text x="136" y="268" text-anchor="middle" class="h2">Kernel persistence</text>
+  <text x="136" y="290" text-anchor="middle" class="t">survives process crash</text>
+
+  <rect x="252" y="242" width="192" height="70" rx="10" class="label-bg"/>
+  <text x="348" y="268" text-anchor="middle" class="h2">Message boundaries</text>
+  <text x="348" y="290" text-anchor="middle" class="t">discrete records, not bytes</text>
+
+  <rect x="464" y="242" width="192" height="70" rx="10" class="label-bg"/>
+  <text x="560" y="268" text-anchor="middle" class="h2">Async notification</text>
+  <text x="560" y="290" text-anchor="middle" class="t">mq_notify() callback</text>
+
+  <rect x="676" y="242" width="184" height="70" rx="10" class="label-bg"/>
+  <text x="768" y="268" text-anchor="middle" class="h2">Priority ordering</text>
+  <text x="768" y="290" text-anchor="middle" class="t">0–31 priority levels</text>
+</svg>
