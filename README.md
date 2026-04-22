@@ -7,7 +7,7 @@
 [![Platform: Linux](https://img.shields.io/badge/Platform-Linux-green.svg)]()
 [![Focus: Systems Programming](https://img.shields.io/badge/Focus-Systems%20Programming-6f42c1.svg)]()
 
-![Linux IPC banner](diagrams/linux-ipc-banner.svg)
+![Linux IPC banner](diagrams/linux-ipc-banner.png)
 
 ---
 
@@ -84,13 +84,13 @@ What makes the project stronger as a portfolio piece:
 
 ### Static architecture overview
 
-![Linux IPC overview](diagrams/ipc-overview.svg)
+![Linux IPC overview](diagrams/ipc-overview.png)
 
 ### Static selection guide
 
-![IPC selection guide](diagrams/ipc-selection-guide.svg)
+![IPC selection guide](diagrams/ipc-selection-guide.png)
 
-These static SVG visuals are included so the repository still looks polished in contexts where Mermaid previews are limited.
+These PNG diagrams are included so the repository still looks polished in contexts where Mermaid previews are limited.
 
 ---
 
@@ -225,7 +225,7 @@ flowchart LR
 
 ### Unnamed pipe vs FIFO
 
-![Pipe mechanism](diagrams/pipe-mechanism.svg)
+![Pipe mechanism](diagrams/pipe-mechanism.png)
 
 | Feature | Unnamed Pipe | FIFO |
 |---|---|---|
@@ -295,7 +295,7 @@ flowchart LR
 
 ### Why message queues differ from pipes
 
-![Message Queue mechanism](diagrams/mqueue-mechanism.svg)
+![Message Queue mechanism](diagrams/mqueue-mechanism.png)
 
 Pipes are “just bytes.” Message queues are **records**.
 
@@ -363,7 +363,7 @@ flowchart TD
 
 ### Typical workflow
 
-![Shared Memory mechanism](diagrams/shm-mechanism.svg)
+![Shared Memory mechanism](diagrams/shm-mechanism.png)
 
 1. `shm_open()` creates or opens a shared memory object.
 2. `ftruncate()` sets its size.
@@ -439,7 +439,7 @@ flowchart TD
 
 ### Binary vs counting semaphore
 
-![Semaphore mechanism](diagrams/semaphore-mechanism.svg)
+![Semaphore mechanism](diagrams/semaphore-mechanism.png)
 
 | Type | Meaning | Common use |
 |---|---|---|
@@ -502,7 +502,7 @@ flowchart LR
 
 ### UNIX domain vs Internet domain
 
-![Socket mechanism](diagrams/socket-mechanism.svg)
+![Socket mechanism](diagrams/socket-mechanism.png)
 
 | Type | Addressing | Scope | Typical use |
 |---|---|---|---|
@@ -577,7 +577,7 @@ sequenceDiagram
 
 ### Common roles of signals
 
-![Signal mechanism](diagrams/signal-mechanism.svg)
+![Signal mechanism](diagrams/signal-mechanism.png)
 
 - graceful shutdown (`SIGTERM`, `SIGINT`),
 - child state changes (`SIGCHLD`),
@@ -650,7 +650,7 @@ flowchart TD
 
 ## IPC Comparison Matrix
 
-![IPC Comparison Matrix](diagrams/ipc-comparison-matrix.svg)
+![IPC Comparison Matrix](diagrams/ipc-comparison-matrix.png)
 
 | Mechanism | Data Model | Sync Built-In | Works Between Unrelated Processes | Network Capable | Performance | Best For |
 |---|---|---:|---:|---:|---|---|
@@ -671,7 +671,7 @@ The capstone ties the mechanisms together into one practical architecture.
 
 ### High-level idea
 
-![Capstone architecture](diagrams/capstone-architecture.svg)
+![Capstone architecture](diagrams/capstone-architecture.png)
 
 A **dispatcher** accepts commands, pushes work into a task queue, coordinates workers, and exposes system state to clients.
 
@@ -784,17 +784,17 @@ linux-ipc-guide/
 ├── Makefile
 ├── LICENSE
 ├── diagrams/
-│   ├── linux-ipc-banner.svg
-│   ├── ipc-overview.svg
-│   ├── ipc-selection-guide.svg
-│   ├── ipc-comparison-matrix.svg
-│   ├── pipe-mechanism.svg
-│   ├── mqueue-mechanism.svg
-│   ├── shm-mechanism.svg
-│   ├── semaphore-mechanism.svg
-│   ├── socket-mechanism.svg
-│   ├── signal-mechanism.svg
-│   └── capstone-architecture.svg
+│   ├── linux-ipc-banner.png
+│   ├── ipc-overview.png
+│   ├── ipc-selection-guide.png
+│   ├── ipc-comparison-matrix.png
+│   ├── pipe-mechanism.png
+│   ├── mqueue-mechanism.png
+│   ├── shm-mechanism.png
+│   ├── semaphore-mechanism.png
+│   ├── socket-mechanism.png
+│   ├── signal-mechanism.png
+│   └── capstone-architecture.png
 ├── docs/
 │   ├── NOTES.md
 │   ├── TLPI_SOURCE_MAP.md
