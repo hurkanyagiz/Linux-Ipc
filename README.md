@@ -217,8 +217,8 @@ A **pipe** is the classic UNIX IPC mechanism: a unidirectional kernel buffer wit
 
 ```mermaid
 flowchart LR
-    WA[Writer Process] -->|write()| PB[(Kernel Pipe Buffer)]
-    PB -->|read()| RB[Reader Process]
+    WA[Writer Process] -->|"write()"| PB[("Kernel Pipe Buffer")]
+    PB -->|"read()"| RB[Reader Process]
 
     style PB fill:#eef,stroke:#333,stroke-width:1px
 ```
@@ -290,7 +290,7 @@ flowchart LR
     S1[Producer A] -->|mq_send priority 10| Q[(POSIX MQ)]
     S2[Producer B] -->|mq_send priority 3| Q
     Q -->|mq_receive highest priority first| R[Consumer]
-    Q --> N[Optional mq_notify()]
+    Q --> N["Optional mq_notify()"]
 ```
 
 ### Why message queues differ from pipes
@@ -429,11 +429,11 @@ Its main purpose is to control **when** other processes may proceed.
 
 ```mermaid
 flowchart TD
-    WAIT[sem_wait()] --> CHECK{counter > 0?}
+    WAIT["sem_wait()"] --> CHECK{"counter > 0?"}
     CHECK -- Yes --> DEC[decrement counter]
     DEC --> ENTER[enter critical section]
     CHECK -- No --> BLOCK[block caller]
-    EXIT[sem_post()] --> INC[increment counter]
+    EXIT["sem_post()"] --> INC[increment counter]
     INC --> WAKE[wake one waiting process if needed]
 ```
 
