@@ -140,13 +140,24 @@ int main(int argc, char *argv[]) {
         sem_post(g_sem);
         if (!alive) break;
 
+        /* The dispatcher sends SIGUSR1 when it enqueues a task. The handler
+         * is installed without SA_RESTART, so the signal interrupts the wait
+         * below with EINTR and the task is picked up immediately instead of
+         * after the full timeout. */
         struct timespec ts;
         clock_gettime(CLOCK_REALTIME, &ts);
         ts.tv_sec += 2;
         unsigned int prio;
         ssize_t n = mq_timedreceive(g_mq, (char *)&msg, sizeof(msg), &prio, &ts);
-        if (n == (ssize_t)sizeof(msg)) process_task(&msg);
-        g_new_task = 0;
+
+        if (n == (ssize_t)sizeof(msg)) {
+            g_new_task = 0;
+            process_task(&msg);
+        } else if (g_new_task) {
+            /* Woken by SIGUSR1 before a message was readable: retry at once. */
+            g_new_task = 0;
+            continue;
+        }
     }
 
     printf("\n[Worker-%d] Shutting down...\n", g_wid);

@@ -243,6 +243,13 @@ Even though the API is small, pipes integrate beautifully with `fork()`, `dup2()
 cat access.log | grep 500 | sort | uniq -c
 ```
 
+### Capacity and end-of-file semantics
+
+Two details from `man 7 pipe` that explain most pipe bugs:
+
+- **Capacity.** Since Linux 2.6.11 a pipe holds 65536 bytes (16 pages) by default; since 2.6.35 it can be queried and changed with `fcntl()` `F_GETPIPE_SZ` / `F_SETPIPE_SZ`. The man page warns against relying on any particular capacity. Separately, `PIPE_BUF` (4096 bytes on Linux) is the largest write guaranteed to be **atomic**, which is a different thing from the buffer size.
+- **Closing unused ends matters.** `read()` returns `0` (EOF) only once *all* write-end descriptors are closed, and `write()` raises `SIGPIPE` (or fails with `EPIPE` if the signal is ignored) only once *all* read-end descriptors are closed. A process that forgets to close the end it does not use will hang rather than see EOF or `SIGPIPE`.
+
 ### When to use pipes
 
 - parent-child data flow,
@@ -314,6 +321,20 @@ That makes queues a better fit for:
 3. `mq_receive()` pops a full message out.
 4. `mq_close()` releases the descriptor.
 5. `mq_unlink()` removes the queue object.
+
+### Limits worth knowing
+
+These are Linux defaults, not guarantees — check them on your own system:
+
+| Property | Linux default | Where it comes from |
+|---|---|---|
+| Priority range | `0` – `32767` | `sysconf(_SC_MQ_PRIO_MAX) - 1`; POSIX.1 only requires `0`–`31` |
+| Max messages per queue | 10 | `/proc/sys/fs/mqueue/msg_max` |
+| Max message size | 8192 bytes | `/proc/sys/fs/mqueue/msgsize_max` |
+
+Higher values can be requested through the `struct mq_attr` passed to `mq_open()`, subject to those ceilings.
+
+`mq_notify()` is worth one extra note: it fires **only when a message arrives at an empty queue**, and the registration is removed once the notification is delivered, so it has to be re-armed each time.
 
 ### Strengths and weaknesses
 

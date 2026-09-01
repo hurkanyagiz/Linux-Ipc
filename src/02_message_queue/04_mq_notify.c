@@ -1,9 +1,24 @@
 /*
  * 04_mq_notify.c — Async Notification on Message Arrival
  *
- * Instead of blocking on mq_receive(), this example uses mq_notify()
- * to get a signal (SIGUSR1) when a new message arrives. The main
- * loop can do other work while waiting.
+ * Instead of blocking in mq_receive(), this example registers with
+ * mq_notify() and lets the main loop do other work until a signal
+ * (SIGUSR1) announces that the queue has become readable.
+ *
+ * Two details from man 3 mq_notify that shape this code:
+ *
+ *   1. Notification fires ONLY on an empty -> non-empty transition.
+ *      A message arriving at an already non-empty queue produces no
+ *      signal, so the handler must drain everything that is queued.
+ *
+ *   2. Notification is one-shot: the registration is removed as soon
+ *      as it is delivered. To keep receiving notifications you must
+ *      call mq_notify() again, and the man page recommends doing so
+ *      BEFORE draining the queue (as this code does), otherwise a
+ *      message arriving mid-drain could be missed.
+ *
+ * The queue is opened O_NONBLOCK so the drain loop can empty it and
+ * stop cleanly with EAGAIN instead of blocking on the last read.
  *
  * Build: gcc -o 04_mq_notify 04_mq_notify.c -lrt
  */
@@ -88,7 +103,10 @@ int main(void)
     while (received < 3) {
         if (msg_available) {
             msg_available = 0;
-            register_notification(); /* Must re-register each time */
+            /* Re-register BEFORE draining: notification is one-shot, and
+             * arming it first means a message that arrives while we drain
+             * still produces a notification instead of being missed. */
+            register_notification();
 
             unsigned int prio;
             ssize_t n;

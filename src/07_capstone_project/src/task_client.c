@@ -86,6 +86,15 @@ int main(void) {
                 printf("Usage: submit <compute|io|sleep> <prio> <param> [desc]\n"); continue;
             }
             cmd.type = CMD_SUBMIT; cmd.priority = prio; cmd.param = param;
+            /* mq_send() rejects priorities >= sysconf(_SC_MQ_PRIO_MAX).
+             * This app uses a small 0-9 scale, so validate here and give a
+             * clear message rather than letting the send fail with EINVAL. */
+            if (prio < 0 || prio > 9) {
+                printf("Priority must be 0-9 (9 = highest).\n"); continue;
+            }
+            if (param < 0) {
+                printf("Parameter must be non-negative.\n"); continue;
+            }
             if (strcmp(ts,"compute")==0) cmd.task_type = TASK_COMPUTE;
             else if (strcmp(ts,"io")==0) cmd.task_type = TASK_IO;
             else if (strcmp(ts,"sleep")==0) cmd.task_type = TASK_SLEEP;
